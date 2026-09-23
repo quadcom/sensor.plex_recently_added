@@ -4,7 +4,7 @@ import requests
 from urllib3.exceptions import InsecureRequestWarning
 
 from homeassistant.core import HomeAssistant
-from .const import DEFAULT_PARSE_DICT, USER_AGENT, ACCEPTS
+from .const import DEFAULT_PARSE_DICT, USER_AGENT, ACCEPTS, SORT_AUTO, SORT_LAST_VIEWED
 from .parser import parse_data, parse_library
 from .tmdb_api import get_tmdb_trailer_url
 
@@ -21,6 +21,7 @@ class PlexApi():
         token: str,
         max: int,
         on_deck: bool,
+        sort_by: str,
         host: str,
         port: int,
         section_types: list,
@@ -32,6 +33,7 @@ class PlexApi():
         self._token = token
         self._max = max
         self._on_deck = on_deck
+        self._last_viewed_first = sort_by == SORT_LAST_VIEWED or (sort_by == SORT_AUTO and on_deck)
         self._host = host
         self._port = port
         self._section_types = section_types
@@ -138,7 +140,7 @@ class PlexApi():
 
         data_out = {}
         for k in data.keys():
-            parsed_data = parse_data(self._hass, data[k], self._max, info_url, self._token, identifier, k, self._images_base_url, k == "all")
+            parsed_data = parse_data(self._hass, data[k], self._max, info_url, self._token, identifier, k, self._images_base_url, k == "all", self._last_viewed_first)
             
             # Ensure trailer URLs are correctly set for the "all" sensor
             if k == "all":

@@ -16,6 +16,15 @@ CONF_EXCLUDE_KEYWORDS: Final = 'exclude_keywords'
 CONF_SECTION_LIBRARIES_LABEL: Final = 'Which libraries to consider:'
 CONF_EXCLUDE_KEYWORDS_LABEL: Final = 'Keyword to be exclude from the sensor:'
 CONF_ON_DECK: Final = 'on_deck'
+CONF_SORT_BY: Final = 'sort_by'
+SORT_AUTO: Final = 'auto'
+SORT_ADDED: Final = 'added'
+SORT_LAST_VIEWED: Final = 'last_viewed'
+SORT_OPTIONS: Final = [
+    {'value': SORT_AUTO, 'label': 'Automatic (last watched for on deck, otherwise date added)'},
+    {'value': SORT_ADDED, 'label': 'Date added'},
+    {'value': SORT_LAST_VIEWED, 'label': 'Last watched'},
+]
 CONF_VERIFY_SSL: Final = 'verify_ssl'
 
 

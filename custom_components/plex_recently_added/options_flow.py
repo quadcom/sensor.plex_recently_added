@@ -21,6 +21,9 @@ from .const import (
     CONF_EXCLUDE_KEYWORDS_LABEL,
     CONF_MAX,
     CONF_ON_DECK,
+    CONF_SORT_BY,
+    SORT_AUTO,
+    SORT_OPTIONS,
     )
 
 
@@ -47,6 +50,7 @@ class PlexOptionFlow(OptionsFlow):
                 CONF_SECTION_LIBRARIES: user_input.get(CONF_SECTION_LIBRARIES, []),
                 CONF_EXCLUDE_KEYWORDS: user_input.get(CONF_EXCLUDE_KEYWORDS, []),
                 CONF_ON_DECK: user_input.get(CONF_ON_DECK, False),
+                CONF_SORT_BY: user_input.get(CONF_SORT_BY, SORT_AUTO),
             }
             self.hass.config_entries.async_update_entry(self._config_entry, data=updated_data, minor_version=0, version=1)
 
@@ -59,6 +63,7 @@ class PlexOptionFlow(OptionsFlow):
             vol.Optional(CONF_EXCLUDE_KEYWORDS + "_label"): ConstantSelector(ConstantSelectorConfig(value=CONF_EXCLUDE_KEYWORDS_LABEL)),
             vol.Optional(CONF_EXCLUDE_KEYWORDS, default=self._config_entry.data.get(CONF_EXCLUDE_KEYWORDS, [])): TextSelector(TextSelectorConfig(multiple=True, multiline=False)),
             vol.Optional(CONF_ON_DECK, default=self._config_entry.data.get(CONF_ON_DECK, False)): vol.All(bool),
+            vol.Optional(CONF_SORT_BY, default=self._config_entry.data.get(CONF_SORT_BY, SORT_AUTO)): SelectSelector(SelectSelectorConfig(options=SORT_OPTIONS, mode=SelectSelectorMode.DROPDOWN)),
         })
 
         # Display a form to gather user input

@@ -76,15 +76,24 @@ def extract_metadata_and_type(path):
         art_id = match.group(3)
         return metadata_id, art_type, art_id
 
-def parse_data(hass: HomeAssistant, data, max, base_url, token, identifier, section_key, images_base_url, is_all = False):
+def _added(item):
+    return int(item.get('addedAt') or 0)
+
+def _last_viewed(item):
+    # Continue Watching in Plex's own apps puts the item watched most recently
+    # first. An item never viewed falls back to when it was added.
+    return int(item.get('lastViewedAt') or item.get('addedAt') or 0)
+
+def parse_data(hass: HomeAssistant, data, max, base_url, token, identifier, section_key, images_base_url, is_all = False, last_viewed_first = False):
+    sort_key = _last_viewed if last_viewed_first else _added
     if is_all:
         sorted_data = []
         for k in data.keys():
-            type_sorted = sorted(data[k], key=lambda i: i['addedAt'], reverse=True)[:max]
+            type_sorted = sorted(data[k], key=sort_key, reverse=True)[:max]
             sorted_data += type_sorted
-        sorted_data = sorted(sorted_data, key=lambda i: i['addedAt'], reverse=True)
+        sorted_data = sorted(sorted_data, key=sort_key, reverse=True)
     else:
-        sorted_data = sorted(data, key=lambda i: i['addedAt'], reverse=True)[:max]
+        sorted_data = sorted(data, key=sort_key, reverse=True)[:max]
 
     output = []
     valid_images = set()

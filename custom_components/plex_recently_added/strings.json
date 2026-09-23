@@ -10,6 +10,7 @@
             "ssl": "SSL",
             "max": "Max number of items in sensor",
             "on_deck": "Show \"on deck\" items",
+            "sort_by": "Sort by",
             "section_types": "Which section types to consider",
             "exclude_keywords": "Keyword to be exclude from the sensor",
             "section_libraries": "Which libraries to consider",
@@ -27,6 +28,7 @@
             "ssl": "SSL",
             "max": "Max number of items in sensor",
             "on_deck": "Show \"on deck\" items",
+            "sort_by": "Sort by",
             "section_types": "Which section types to consider",
             "exclude_keywords": "Keyword to be exclude from the sensor",
             "section_libraries": "Which libraries to consider",
@@ -53,7 +55,8 @@
             "section_types": "Which section types to consider",
             "exclude_keywords": "Keyword to be exclude from the sensor",
             "section_libraries": "Which libraries to consider",
-            "on_deck": "Show \"on deck\" items"
+            "on_deck": "Show \"on deck\" items",
+            "sort_by": "Sort by"
         }
         }
       },

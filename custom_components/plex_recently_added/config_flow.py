@@ -31,7 +31,10 @@ from .const import (
     CONF_EXCLUDE_KEYWORDS,
     CONF_SECTION_LIBRARIES_LABEL,
     CONF_EXCLUDE_KEYWORDS_LABEL,
-    CONF_ON_DECK
+    CONF_ON_DECK,
+    CONF_SORT_BY,
+    SORT_AUTO,
+    SORT_OPTIONS,
 )
 
 from .helpers import setup_client
@@ -48,6 +51,7 @@ PLEX_SCHEMA = vol.Schema({
     vol.Optional(CONF_SSL, default=False): vol.All(bool),
     vol.Optional(CONF_MAX, default=5): vol.All(vol.Coerce(int), vol.Range(min=0)),
     vol.Optional(CONF_ON_DECK, default=False): vol.All(bool),
+    vol.Optional(CONF_SORT_BY, default=SORT_AUTO): SelectSelector(SelectSelectorConfig(options=SORT_OPTIONS, mode=SelectSelectorMode.DROPDOWN)),
     vol.Optional(CONF_SECTION_TYPES, default={"movie", "show"}): SelectSelector(SelectSelectorConfig(options=ALL_SECTION_TYPES, mode=SelectSelectorMode.DROPDOWN ,multiple=True)),
     vol.Optional(CONF_SECTION_LIBRARIES + "_label"): ConstantSelector(ConstantSelectorConfig(value=CONF_SECTION_LIBRARIES_LABEL)),
     vol.Optional(CONF_SECTION_LIBRARIES): TextSelector(TextSelectorConfig(multiple=True, multiline=False)),
@@ -77,6 +81,7 @@ class PlexConfigFlow(ConfigFlow, domain=DOMAIN):
                     user_input[CONF_API_KEY],
                     user_input[CONF_MAX],
                     user_input[CONF_ON_DECK],
+                    user_input.get(CONF_SORT_BY, SORT_AUTO),
                     user_input[CONF_HOST],
                     user_input[CONF_PORT],
                     user_input.get(CONF_SECTION_TYPES, []),
@@ -107,6 +112,7 @@ class PlexConfigFlow(ConfigFlow, domain=DOMAIN):
                     user_input[CONF_API_KEY],
                     user_input[CONF_MAX],
                     user_input[CONF_ON_DECK],
+                    user_input.get(CONF_SORT_BY, SORT_AUTO),
                     user_input[CONF_HOST],
                     user_input[CONF_PORT],
                     user_input.get(CONF_SECTION_TYPES, []),
